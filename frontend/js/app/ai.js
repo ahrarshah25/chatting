@@ -1,29 +1,6 @@
 console.log("AI JS Connected!");
 
 document.getElementById("sendBtn").addEventListener("click", async () => {
-
-    async function waitForUser() {
-    return new Promise(resolve => {
-        let check = setInterval(() => {
-            if (window.currentUser) {
-                clearInterval(check);
-                resolve(true);
-            }
-        }, 200);
-    });
-}
-
-
-    // Wait until user is loaded
-    await waitForUser();  
-
-    if (!window.currentUser) {
-        console.error("User still not loaded.");
-        return;
-    }
-
-    if (window.currentChatId !== "AI_ASSISTANT") return;
-
     const textEl = document.getElementById("messageTextarea");
     const message = textEl.value.trim();
     if (!message) return;
@@ -32,19 +9,21 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
 
     // Show user message
     window.appendMessage({
-        sender_id: window.currentUser.id,
+        sender_id: "USER",
         message_text: message,
         created_at: new Date()
     });
 
     // Save to DB
     await supabase.from("messages").insert({
-        sender_id: window.currentUser.id,
+        sender_id: "USER",
         receiver_id: "AI_ASSISTANT",
         message_text: message
     });
 
-    window.showTyping?.();
+    // Show typing animation
+    const typingEl = document.getElementById("typingIndicator");
+    typingEl.style.display = "block";
 
     try {
         const url = `https://ahrarshah-api.vercel.app/api/ai?prompt=${encodeURIComponent(message)}`;
@@ -53,16 +32,16 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
 
         const data = await response.json();
 
-        window.hideTyping?.();
+        typingEl.style.display = "none";
 
         // Save AI reply
         await supabase.from("messages").insert({
             sender_id: "AI_ASSISTANT",
-            receiver_id: window.currentUser.id,
+            receiver_id: "USER",
             message_text: data.result
         });
 
-        // Show on UI
+        // Show AI reply on UI
         window.appendMessage({
             sender_id: "AI_ASSISTANT",
             message_text: data.result,
@@ -70,7 +49,7 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
         });
 
     } catch (err) {
-        window.hideTyping?.();
+        typingEl.style.display = "none";
         window.appendMessage({
             sender_id: "AI_ASSISTANT",
             message_text: "Sorry, I could not process that.",

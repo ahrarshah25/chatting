@@ -210,3 +210,28 @@ try {
         document.addEventListener("click", (e) => { if (!settingsBtn.contains(e.target) && !settingsMenu.contains(e.target)) settingsMenu.style.display = "none"; });
     }
 } catch (err) { console.error(err); }
+
+// AI Function!
+function addAiContact() {
+    const list = document.getElementById("contactsList");
+    if (!list) return;
+
+    const aiDiv = document.createElement("div");
+    aiDiv.className = "contact-item";
+    aiDiv.id = "aiContact";
+
+    aiDiv.innerHTML = `
+        <div class="contact-avatar" style="background:#4a6cf7;color:white;font-weight:bold;">
+            A
+        </div>
+        <div class="contact-info">
+            <div class="contact-name">AS Developers AI</div>
+            <div class="contact-status">Ask anything...</div>
+        </div>
+    `;
+
+    aiDiv.onclick = () => openAiChat();
+    list.prepend(aiDiv);
+}
+
+addAiContact();

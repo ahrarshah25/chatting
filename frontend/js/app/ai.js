@@ -1,5 +1,12 @@
 console.log("AI JS Connected!");
 
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabaseUrl = "https://dgiaeetuqokpditcnddl.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnaWFlZXR1cW9rcGRpdGNuZGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwNTQ1MDAsImV4cCI6MjA3OTYzMDUwMH0.LL3JyARBps_34SQUflWksG2plDyHCpA6oZnacUY76l0";
+const BACKEND = "https://chatting-app-backend-by-ahrar.vercel.app";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 document.getElementById("sendBtn").addEventListener("click", async () => {
     const textEl = document.getElementById("messageTextarea");
     const message = textEl.value.trim();

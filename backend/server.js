@@ -4,7 +4,7 @@ require('dotenv').config({ path: '.env.local' });
 const webpush = require('web-push');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = "https://chatting-app-backend-by-ahrar.vercel.app/";
 
 app.use(cors());
 app.use(express.json());

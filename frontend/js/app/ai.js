@@ -1,53 +1,37 @@
-console.log("AI JS Loaded");
+console.log("AI JS Connected!");
 
 document.getElementById("sendBtn").addEventListener("click", async () => {
-    const textBox = document.getElementById("messageTextarea");
-    const msg = textBox.value.trim();
-    if (!msg || currentChatId !== "AI_CHAT") return;
+    if (window.currentChatId !== "AI_ASSISTANT") return;
 
-    appendAiUserMessage(msg);
-    textBox.value = "";
+    const textEl = document.getElementById("messageTextarea");
+    const message = textEl.value.trim();
+    if (!message) return;
 
-    const url = `https://ahrarshah-api.vercel.app/api/ai?prompt=${encodeURIComponent(msg)}`;
+    appendMessage({
+        sender_id: window.currentUser.id,
+        message_text: message,
+        created_at: new Date()
+    });
+
+    textEl.value = "";
 
     try {
+        const url = `https://ahrarshah-api.vercel.app/api/ai?prompt=${encodeURIComponent(message)}`;
         const response = await fetch(url);
+
         if (!response.ok) throw new Error("API ERROR");
         const data = await response.json();
-        appendAiBotMessage(data.result);
+
+        appendMessage({
+            sender_id: "AI_ASSISTANT",
+            message_text: data.result,
+            created_at: new Date()
+        });
     } catch (err) {
-        appendAiBotMessage("AI Error: " + err.message);
+        appendMessage({
+            sender_id: "AI_ASSISTANT",
+            message_text: "Sorry, I could not process that.",
+            created_at: new Date()
+        });
     }
 });
-
-function appendAiUserMessage(text) {
-    const box = document.getElementById("messagesContainer");
-    const div = document.createElement("div");
-    div.className = "message message--sent";
-    div.innerHTML = `
-        <div class="message-content">
-            <div class="message-bubble">
-                <div class="message-text">${text}</div>
-                <div class="message-time">${new Date().toLocaleTimeString()}</div>
-            </div>
-        </div>
-    `;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-}
-
-function appendAiBotMessage(text) {
-    const box = document.getElementById("messagesContainer");
-    const div = document.createElement("div");
-    div.className = "message message--received";
-    div.innerHTML = `
-        <div class="message-content">
-            <div class="message-bubble">
-                <div class="message-text">${text}</div>
-                <div class="message-time">${new Date().toLocaleTimeString()}</div>
-            </div>
-        </div>
-    `;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-}

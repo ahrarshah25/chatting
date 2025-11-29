@@ -2,9 +2,11 @@ console.log("AI JS Connected!");
 
 document.getElementById("sendBtn").addEventListener("click", async () => {
 
-    // FIX: Prevent error when currentUser is not loaded
+    // Wait until user is loaded
+    await waitForUser();  
+
     if (!window.currentUser) {
-        console.warn("User not loaded yet.");
+        console.error("User still not loaded.");
         return;
     }
 
@@ -16,22 +18,21 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
 
     textEl.value = "";
 
-    // SHOW USER MESSAGE
+    // Show user message
     window.appendMessage({
         sender_id: window.currentUser.id,
         message_text: message,
         created_at: new Date()
     });
 
-    // SAVE USER MESSAGE IN DATABASE
+    // Save to DB
     await supabase.from("messages").insert({
         sender_id: window.currentUser.id,
         receiver_id: "AI_ASSISTANT",
         message_text: message
     });
 
-    // SHOW TYPING ANIMATION
-    window.showTyping();
+    window.showTyping?.();
 
     try {
         const url = `https://ahrarshah-api.vercel.app/api/ai?prompt=${encodeURIComponent(message)}`;
@@ -40,16 +41,16 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
 
         const data = await response.json();
 
-        window.hideTyping();
+        window.hideTyping?.();
 
-        // SAVE AI MESSAGE TO DB
+        // Save AI reply
         await supabase.from("messages").insert({
             sender_id: "AI_ASSISTANT",
             receiver_id: window.currentUser.id,
             message_text: data.result
         });
 
-        // DISPLAY AI MESSAGE
+        // Show on UI
         window.appendMessage({
             sender_id: "AI_ASSISTANT",
             message_text: data.result,
@@ -57,8 +58,7 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
         });
 
     } catch (err) {
-        window.hideTyping();
-
+        window.hideTyping?.();
         window.appendMessage({
             sender_id: "AI_ASSISTANT",
             message_text: "Sorry, I could not process that.",

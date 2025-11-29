@@ -254,3 +254,6 @@ window.openAIChat = function () {
         created_at: new Date()
     });
 };
+
+
+window.appendMessage = appendMessage;

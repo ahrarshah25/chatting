@@ -7,12 +7,7 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
     const message = textEl.value.trim();
     if (!message) return;
 
-    appendMessage({
-        sender_id: window.currentUser.id,
-        message_text: message,
-        created_at: new Date()
-    });
-
+    // ❌ USER MESSAGE append hata diya
     textEl.value = "";
 
     try {
@@ -22,6 +17,7 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
         if (!response.ok) throw new Error("API ERROR");
         const data = await response.json();
 
+        // ✔️ Only AI answer show hoga
         appendMessage({
             sender_id: "AI_ASSISTANT",
             message_text: data.result,

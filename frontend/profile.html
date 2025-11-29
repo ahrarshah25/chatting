@@ -1103,162 +1103,149 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const profileSidebar = document.getElementById('profileSidebar');
-            const mobileOverlay = document.getElementById('mobileOverlay');
-            
-            mobileMenuBtn.addEventListener('click', function() {
-                profileSidebar.classList.toggle('active');
-                mobileOverlay.classList.toggle('active');
-            });
-            
-            mobileOverlay.addEventListener('click', function() {
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabaseUrl = "https://dgiaeetuqokpditcnddl.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnaWFlZXR1cW9rcGRpdGNuZGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQwNTQ1MDAsImV4cCI6MjA3OTYzMDUwMH0.LL3JyARBps_34SQUflWksG2plDyHCpA6oZnacUY76l0";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const profileSidebar = document.getElementById('profileSidebar');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const avatarInput = document.getElementById('avatarInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const removeBtn = document.getElementById('removeBtn');
+    const currentAvatar = document.getElementById('currentAvatar');
+    const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+    const checkUsernameBtn = document.getElementById('checkUsername');
+    const personalForm = document.getElementById('personalForm');
+    const successToast = document.getElementById('successToast');
+    const closeToast = document.getElementById('closeToast');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        profileSidebar.classList.toggle('active');
+        mobileOverlay.classList.toggle('active');
+    });
+    mobileOverlay.addEventListener('click', () => {
+        profileSidebar.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+    });
+
+    const navItems = document.querySelectorAll('.nav-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            navItems.forEach(nav => nav.classList.remove('active'));
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            this.classList.add('active');
+            const tabId = this.getAttribute('data-tab') + '-tab';
+            document.getElementById(tabId).classList.add('active');
+            if (window.innerWidth <= 768) {
                 profileSidebar.classList.remove('active');
                 mobileOverlay.classList.remove('active');
-            });
-
-            const navItems = document.querySelectorAll('.nav-item');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            navItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    tabContents.forEach(tab => tab.classList.remove('active'));
-                    
-                    this.classList.add('active');
-                    
-                    const tabId = this.getAttribute('data-tab') + '-tab';
-                    document.getElementById(tabId).classList.add('active');
-                    
-                    if (window.innerWidth <= 768) {
-                        profileSidebar.classList.remove('active');
-                        mobileOverlay.classList.remove('active');
-                    }
-                });
-            });
-
-            const avatarInput = document.getElementById('avatarInput');
-            const uploadBtn = document.getElementById('uploadBtn');
-            const removeBtn = document.getElementById('removeBtn');
-            const currentAvatar = document.getElementById('currentAvatar');
-            const avatarPlaceholder = document.getElementById('avatarPlaceholder');
-
-            uploadBtn.addEventListener('click', () => avatarInput.click());
-            
-            avatarInput.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    if (file.size > 2 * 1024 * 1024) {
-                        alert('File size must be less than 2MB');
-                        return;
-                    }
-                    
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        currentAvatar.src = e.target.result;
-                        currentAvatar.style.display = 'block';
-                        avatarPlaceholder.style.display = 'none';
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            removeBtn.addEventListener('click', function() {
-                currentAvatar.src = '';
-                currentAvatar.style.display = 'none';
-                avatarPlaceholder.style.display = 'flex';
-                avatarInput.value = '';
-            });
-
-            const checkUsernameBtn = document.getElementById('checkUsername');
-            checkUsernameBtn.addEventListener('click', function() {
-                const username = document.getElementById('username').value;
-                if (username) {
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
-                    this.disabled = true;
-                    
-                    setTimeout(() => {
-                        this.innerHTML = '<i class="fas fa-check"></i> Available';
-                        this.style.background = 'var(--success)';
-                        setTimeout(() => {
-                            this.innerHTML = '<i class="fas fa-check"></i> Check Availability';
-                            this.style.background = '';
-                            this.disabled = false;
-                        }, 2000);
-                    }, 1000);
-                }
-            });
-
-            const personalForm = document.getElementById('personalForm');
-            const successToast = document.getElementById('successToast');
-            const closeToast = document.getElementById('closeToast');
-            
-            personalForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                successToast.style.display = 'flex';
-                setTimeout(() => {
-                    successToast.style.opacity = '1';
-                    successToast.style.transform = 'translateY(0)';
-                }, 100);
-            });
-
-            closeToast.addEventListener('click', function() {
-                successToast.style.opacity = '0';
-                successToast.style.transform = 'translateY(-20px)';
-                setTimeout(() => {
-                    successToast.style.display = 'none';
-                }, 300);
-            });
-
-            document.getElementById('cancelBtn').addEventListener('click', function() {
-                if (confirm('Are you sure you want to discard changes?')) {
-                    window.location.href = 'chat.html';
-                }
-            });
-
-            const profileVisibility = document.getElementById('profileVisibility');
-            const visibilityStatus = document.getElementById('visibilityStatus');
-            
-            profileVisibility.addEventListener('change', function() {
-                if (this.checked) {
-                    visibilityStatus.textContent = 'Currently: Everyone can see your profile';
-                } else {
-                    visibilityStatus.textContent = 'Currently: No one can see your profile';
-                }
-            });
-
-            const saveNotificationsBtn = document.getElementById('saveNotifications');
-            const resetNotificationsBtn = document.getElementById('resetNotifications');
-            
-            saveNotificationsBtn.addEventListener('click', function() {
-                successToast.querySelector('.toast__content p').textContent = 'Your notification settings have been saved.';
-                successToast.style.display = 'flex';
-                setTimeout(() => {
-                    successToast.style.opacity = '1';
-                    successToast.style.transform = 'translateY(0)';
-                }, 100);
-            });
-            
-            resetNotificationsBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to reset all notification settings to default?')) {
-                    document.getElementById('pushNotifications').checked = false;
-                    document.getElementById('emailNotifications').checked = false;
-                    document.getElementById('messageNotifications').checked = true;
-                    document.getElementById('soundNotifications').checked = true;
-                    
-                    successToast.querySelector('.toast__content p').textContent = 'Notification settings have been reset to default.';
-                    successToast.style.display = 'flex';
-                    setTimeout(() => {
-                        successToast.style.opacity = '1';
-                        successToast.style.transform = 'translateY(0)';
-                    }, 100);
-                }
-            });
+            }
         });
+    });
+
+    uploadBtn.addEventListener('click', () => avatarInput.click());
+    avatarInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) { alert('File size must be less than 2MB'); return; }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentAvatar.src = e.target.result;
+            currentAvatar.style.display = 'block';
+            avatarPlaceholder.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+    removeBtn.addEventListener('click', function() {
+        currentAvatar.src = '';
+        currentAvatar.style.display = 'none';
+        avatarPlaceholder.style.display = 'flex';
+        avatarInput.value = '';
+    });
+
+    checkUsernameBtn.addEventListener('click', async function() {
+        const username = document.getElementById('username').value.trim();
+        if (!username) return alert('Enter a username');
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+        this.disabled = true;
+
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('username', username);
+
+        if (error) {
+            alert('Error checking username');
+            console.error(error);
+        } else if (data.length > 0) {
+            alert('Username is already taken');
+        } else {
+            alert('Username is available');
+        }
+
+        this.innerHTML = '<i class="fas fa-check"></i> Check Availability';
+        this.disabled = false;
+    });
+
+    personalForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const fullName = document.getElementById('fullName').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const file = avatarInput.files[0];
+
+        if (!fullName || !username) return alert('Full name and username are required');
+
+        const { data: existingUser } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('username', username);
+
+        if (existingUser.length > 0) return alert('Username is already taken');
+
+        let avatarUrl = '';
+        if (file) {
+            const uniqueFileName = `${username}-${Date.now()}.${file.name.split('.').pop()}`;
+            const { data, error } = await supabase.storage
+                .from('profiles')
+                .upload(uniqueFileName, file, { cacheControl: '3600', upsert: true });
+            if (error) return alert('Error uploading avatar: ' + error.message);
+            avatarUrl = `${supabaseUrl}/storage/v1/object/public/profiles/${uniqueFileName}`;
+        }
+
+        const { error } = await supabase.from('profiles').upsert({
+            username,
+            full_name: fullName,
+            avatar_url: avatarUrl,
+        });
+        if (error) return alert('Error saving profile: ' + error.message);
+
+        successToast.querySelector('.toast__content p').textContent = 'Your profile has been updated successfully.';
+        successToast.style.display = 'flex';
+        setTimeout(() => {
+            successToast.style.opacity = '1';
+            successToast.style.transform = 'translateY(0)';
+        }, 100);
+    });
+
+    closeToast.addEventListener('click', function() {
+        successToast.style.opacity = '0';
+        successToast.style.transform = 'translateY(-20px)';
+        setTimeout(() => { successToast.style.display = 'none'; }, 300);
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+        if (confirm('Are you sure you want to discard changes?')) {
+            window.location.href = 'chat';
+        }
+    });
+});
+
     </script>
 </body>
 </html>

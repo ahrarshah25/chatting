@@ -237,6 +237,28 @@ try {
 } catch (err) { console.error(err); }
 
 // AI Function!
+function showTyping() {
+    const box = document.getElementById("messagesContainer");
+    const div = document.createElement("div");
+    div.id = "typingLoader";
+    div.className = "message message--received";
+    div.innerHTML = `
+        <div class="typing-indicator">
+            <span></span><span></span><span></span>
+        </div>
+    `;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+}
+
+function hideTyping() {
+    const el = document.getElementById("typingLoader");
+    if (el) el.remove();
+}
+
+window.showTyping = showTyping;
+window.hideTyping = hideTyping;
+
 window.openAIChat = function () {
     window.currentChatId = "AI_ASSISTANT";
 

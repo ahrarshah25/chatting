@@ -91,7 +91,7 @@ function injectAIContact() {
 
     div.innerHTML = `
         <div class="contact-avatar">
-            <img src="/frontend/img/ai.png" class="contact-avatar-img">
+            <img src="https://i.postimg.cc/8PQHz932/Black-Modern-A-letter-Logo.png" class="contact-avatar-img">
         </div>
         <div class="contact-info">
             <div class="contact-name">AS Developers AI</div>

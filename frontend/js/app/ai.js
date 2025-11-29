@@ -2,6 +2,18 @@ console.log("AI JS Connected!");
 
 document.getElementById("sendBtn").addEventListener("click", async () => {
 
+    async function waitForUser() {
+    return new Promise(resolve => {
+        let check = setInterval(() => {
+            if (window.currentUser) {
+                clearInterval(check);
+                resolve(true);
+            }
+        }, 200);
+    });
+}
+
+
     // Wait until user is loaded
     await waitForUser();  
 

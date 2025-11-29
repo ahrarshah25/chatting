@@ -235,3 +235,26 @@ function addAiContact() {
 }
 
 addAiContact();
+
+function openAiChat() {
+    currentChatId = "AI_CHAT";
+
+    document.getElementById("partnerName").textContent = "AS Developers AI";
+    document.getElementById("partnerStatus").textContent = "Online • Smart Assistant";
+
+    document.getElementById("welcomeMessage").style.display = "none";
+    document.getElementById("messageInput").style.display = "flex";
+
+    const box = document.getElementById("messagesContainer");
+    box.innerHTML = `
+        <div class="message message--received">
+            <div class="message-content">
+                <div class="message-bubble">
+                    <div class="message-text">Hello! I'm AS Developers AI. How can I assist you today?</div>
+                    <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+

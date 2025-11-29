@@ -237,49 +237,20 @@ try {
 } catch (err) { console.error(err); }
 
 // AI Function!
-function addAiContact() {
-    const list = document.getElementById("contactsList");
-    if (!list) return;
-
-    const aiDiv = document.createElement("div");
-    aiDiv.className = "contact-item";
-    aiDiv.id = "aiContact";
-
-    aiDiv.innerHTML = `
-        <div class="contact-avatar" style="background:#4a6cf7;color:white;font-weight:bold;">
-            A
-        </div>
-        <div class="contact-info">
-            <div class="contact-name">AS Developers AI</div>
-            <div class="contact-status">Ask anything...</div>
-        </div>
-    `;
-
-    aiDiv.onclick = () => openAiChat();
-    list.prepend(aiDiv);
-}
-
-addAiContact();
-
-function openAiChat() {
-    currentChatId = "AI_CHAT";
+window.openAIChat = function () {
+    window.currentChatId = "AI_ASSISTANT";
 
     document.getElementById("partnerName").textContent = "AS Developers AI";
-    document.getElementById("partnerStatus").textContent = "Online • Smart Assistant";
-
+    document.getElementById("partnerStatus").textContent = "Online";
     document.getElementById("welcomeMessage").style.display = "none";
     document.getElementById("messageInput").style.display = "flex";
 
     const box = document.getElementById("messagesContainer");
-    box.innerHTML = `
-        <div class="message message--received">
-            <div class="message-content">
-                <div class="message-bubble">
-                    <div class="message-text">Hello! I'm AS Developers AI. How can I assist you today?</div>
-                    <div class="message-time">${new Date().toLocaleTimeString()}</div>
-                </div>
-            </div>
-        </div>
-    `;
-}
+    box.innerHTML = "";
 
+    appendMessage({
+        sender_id: "AI_ASSISTANT",
+        message_text: "Hi! I am AS Developers AI. How can I help you today?",
+        created_at: new Date()
+    });
+};

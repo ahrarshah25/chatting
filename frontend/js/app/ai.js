@@ -7,7 +7,6 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
     const message = textEl.value.trim();
     if (!message) return;
 
-    // ❌ USER MESSAGE append hata diya
     textEl.value = "";
 
     try {
@@ -17,14 +16,13 @@ document.getElementById("sendBtn").addEventListener("click", async () => {
         if (!response.ok) throw new Error("API ERROR");
         const data = await response.json();
 
-        // ✔️ Only AI answer show hoga
-        appendMessage({
+        window.appendMessage({
             sender_id: "AI_ASSISTANT",
             message_text: data.result,
             created_at: new Date()
         });
     } catch (err) {
-        appendMessage({
+        window.appendMessage({
             sender_id: "AI_ASSISTANT",
             message_text: "Sorry, I could not process that.",
             created_at: new Date()

@@ -159,7 +159,8 @@ function setupRealtimeStatus() {
 
 function setupRealtimeMessages() {
     try {
-        supabase.channel("chat-messages").on(
+        supabase.channel("chat-messages")
+            .on(
             "postgres_changes",
             { event: "INSERT", schema: "public", table: "messages" },
             async (payload) => {
@@ -181,7 +182,7 @@ function setupRealtimeMessages() {
                         } else {
                             if (m.receiver_id === currentUser.id) {
                                 const { data: senderProfile, error } = await supabase.from("profiles").select("name").eq("id", m.sender_id).single();
-                                const senderName = (senderProfile && senderProfile.name) ? senderProfile.name : '';
+                                const senderName = senderProfile?.name || senderProfile?.username || "Unknown User";
                                 try {
                                     await fetch(`${BACKEND}/send-message-notification`, {
                                         method: "POST",
@@ -334,18 +335,18 @@ document.getElementById("sendBtn").onclick = async () => {
             return;
         }
         textEl.value = "";
-        const { data: senderProfile, error: spErr } = await supabase.from("profiles").select("name").eq("id", currentUser.id).single();
-        if (spErr) console.error('senderProfile fetch error', spErr);
-        const senderName = (senderProfile && senderProfile.name) ? senderProfile.name : '';
         try {
-            await fetch(`${BACKEND}/send-message-notification`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ senderName, receiverId: currentChatId, text, url: window.location.href })
-            });
-        } catch (err) {
-            console.error('send-message-notification fetch error', err);
-        }
+    const { data: senderProfile, error: spErr } = await supabase.from("profiles").select("name, username").eq("id", currentUser.id).single();
+    if (spErr) console.error('senderProfile fetch error', spErr);
+    const senderName = senderProfile?.name || senderProfile?.username || "Unknown User"; // fallback
+    await fetch(`${BACKEND}/send-message-notification`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ senderName, receiverId: currentChatId, text, url: window.location.href })
+    });
+} catch (err) {
+    console.error('send-message-notification fetch error', err);
+}
     } catch (err) {
         console.error('sendBtn handler error', err);
     }

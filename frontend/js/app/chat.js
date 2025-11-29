@@ -66,6 +66,7 @@ async function loadContacts() {
         const list = document.getElementById("contactsList");
         if (!list) return;
         list.innerHTML = "";
+        injectAIContact();
         users.forEach(u => {
             if (!currentUser || u.id === currentUser.id) return;
             const div = document.createElement("div");
@@ -77,7 +78,31 @@ async function loadContacts() {
             list.appendChild(div);
         });
     } catch (err) { console.error(err); }
+    
 }
+
+// Add AI Assistant in sidebar
+function injectAIContact() {
+    const list = document.getElementById("contactsList");
+    const div = document.createElement("div");
+
+    div.className = "contact-item";
+    div.dataset.userid = "AI_ASSISTANT";
+
+    div.innerHTML = `
+        <div class="contact-avatar">
+            <img src="/frontend/img/ai.png" class="contact-avatar-img">
+        </div>
+        <div class="contact-info">
+            <div class="contact-name">AS Developers AI</div>
+            <div class="contact-status">Always Online</div>
+        </div>
+    `;
+
+    div.onclick = () => openAIChat();
+    list.prepend(div);
+}
+
 
 function setupRealtimeStatus() {
     try {

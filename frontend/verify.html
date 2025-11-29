@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Account - AS Chat</title>
+    <link rel="stylesheet" href="/frontend/css/verify.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="gradient-circle circle-1"></div>
+        <div class="gradient-circle circle-2"></div>
+        <div class="gradient-circle circle-3"></div>
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <div class="verify-card">
+            <div class="verify-card__header">
+                <a href="signup" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <span>AS Chat</span>
+                </div>
+                <div class="verify-icon">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                <h1>Verify Your Account</h1>
+                <p>We've sent a 4-digit code to your email</p>
+                <div class="email-display">
+                    <i class="fas fa-envelope"></i>
+                    <span>user@example.com</span>
+                </div>
+            </div>
+
+            <form class="verify-form">
+                <div class="otp-container">
+                    <div class="otp-inputs">
+                        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                    </div>
+                </div>
+
+                <div class="timer-section">
+                    <div class="timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="timer">02:00</span>
+                    </div>
+                    <button type="button" class="resend-btn" disabled>
+                        Resend Code
+                    </button>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full">
+                    <i class="fas fa-check-circle"></i>
+                    Verify Account
+                </button>
+
+                <div class="verify-help">
+                    <p>Didn't receive the code? <a href="#">Check your spam folder</a> or <a href="#">contact support</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert--success" id="successAlert">
+        <div class="alert__icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="alert__content">
+            <h4>Verification Successful!</h4>
+            <p>Your account has been verified. Redirecting...</p>
+        </div>
+    </div>
+
+    <div class="alert alert--error" id="errorAlert">
+        <div class="alert__icon">
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <div class="alert__content">
+            <h4>Invalid Code</h4>
+            <p>Please check the code and try again.</p>
+        </div>
+    </div>
+</body>
+  <script type="module" src="/frontend/js/authentication/verify.js"></script>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - AS Chat</title>
+    <link rel="stylesheet" href="/frontend/css/chat.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="chat-app">
+        <div class="sidebar">
+            <div class="sidebar__header">
+                <div class="user-profile">
+                    <div class="user-avatar" id="currentUserAvatar">
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" id="currentUserName">Loading...</div>
+                        <div class="user-status" id="currentUserStatus">Online</div>
+                    </div>
+                </div>
+                <div class="sidebar-actions">
+                    <button class="icon-btn" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+<div class="settings-menu" id="settingsMenu">
+    <ul>
+        <li id="openProfile"><i class="fas fa-user"></i> Profile</li>
+        <li id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</li>
+    </ul>
+</div>
+
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="searchContacts" placeholder="Search contacts...">
+                </div>
+            </div>
+
+            <div class="contacts-list" id="contactsList">
+                <div class="loading-contacts">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading contacts...</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-partner" id="chatPartnerInfo">
+                    <div class="chat-avatar" id="partnerAvatar">
+                    </div>
+                    <div class="chat-info">
+                        <div class="chat-name" id="partnerName">Select a conversation</div>
+                        <div class="chat-status" id="partnerStatus">Choose someone to chat with</div>
+                    </div>
+                </div>
+                <div class="chat-actions" id="chatActions">
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="welcome-message" id="welcomeMessage">
+                    <div class="welcome-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Welcome to AS Chat</h3>
+                    <p>Select a conversation from the sidebar to start messaging</p>
+                </div>
+            </div>
+
+            <div class="message-input" id="messageInput" style="display: none;">
+                <div class="input-actions">
+                    <button class="icon-btn" id="attachBtn">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <button class="icon-btn" id="emojiBtn">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                </div>
+                <div class="input-container">
+                    <textarea class="message-textarea" id="messageTextarea" placeholder="Type a message..."></textarea>
+                </div>
+                <button class="send-btn" id="sendBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="close-btn" id="closeSettings">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</body>
+<script type="module" src="/frontend/js/app/chat.js"></script>
+</html>

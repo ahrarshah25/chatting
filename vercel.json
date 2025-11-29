@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/chat", "dest": "frontend/chat.html" },
+    { "src": "/login", "dest": "frontend/login.html" },
+    { "src": "/signup", "dest": "frontend/signup.html" },
+    { "src": "/verify", "dest": "frontend/verify.html" },
+    { "src": "/profile", "dest": "frontend/profile.html" },
+    { "src": "/", "dest": "frontend/index.html" }
+  ]
+}

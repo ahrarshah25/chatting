@@ -739,7 +739,7 @@ body {
 }
 
 /* USER MESSAGE (Right Blue) */
-.message--sent .message-bubble {
+/* .message--sent .message-bubble {
     background: #007bff;
     color: white;
     margin-left: auto;
@@ -787,4 +787,4 @@ body {
     0% { opacity: 0.2; }
     20% { opacity: 1; }
     100% { opacity: 0.2; }
-}
+} */
